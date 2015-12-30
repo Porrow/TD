@@ -1,8 +1,6 @@
 package TD;
 
 import TD.UI.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import processing.core.*;
 
 public class TD extends PApplet
@@ -24,14 +22,14 @@ public class TD extends PApplet
     }
     
     @Override
-    public void settings()
+    public void settings()                                                      //Paramétrage (appelé en premier)
     {
         size(w, h);                                                             //Taille de la fenêtre
         //fullScreen();                                                           //Plein écran
     }
     
     @Override
-    public void setup()
+    public void setup()                                                         //Initialisation (appelé après settings())
     {
         frameRate(60);                                                          //Nombre d'images par seconde
         surface.setTitle(TITLE);                                                //Modifie le titre de la fen
@@ -41,7 +39,7 @@ public class TD extends PApplet
     }
 
     @Override
-    public void draw() 
+    public void draw()                                                          //Affiche tout ce qu'il y a de visible à l'écran (appelé après setup())
     {
         //scale();                                                              //Echelle
         PGraphics g2 = createGraphics(w, h);
@@ -50,12 +48,13 @@ public class TD extends PApplet
         switch(choice)
         {
             case 0:
+                Menu.draw(g2);
+                break;
+            case 1:
                 Ground.draw(g2);
                 Tower.draw(g2);
                 Unit.draw(g2);
                 Interface.draw(g2);
-                break;
-            case 1:
                 break;
             case 2:
                 break;

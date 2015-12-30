@@ -1,14 +1,9 @@
 package TD.UI;
 
-import TD.*;
-import processing.core.*;
+import processing.core.PGraphics;
 
-public class Tower
+public class Menu 
 {
-    public Tower()
-    {
-        
-    }
     public static void draw(PGraphics g)
     {
         g.line(0, 50, 100, 50);
