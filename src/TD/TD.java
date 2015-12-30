@@ -9,12 +9,13 @@ public class TD extends PApplet
 {
     //Constantes :
     public static final String TITLE = "Tower Defense";                         //Nom fen
-    public static final int w = 700;                                            //Largeur fen
-    public static final int h = 700;                                            //Hauteur fen
-    public static final String IMGPATH = "res/image/";                          //Chemin d'accès aux images
+    public static final int scale = 80;                                         //Echelle de taille de fen : 80 = 720p
+    public static final int w = 16*scale;                                       //Largeur par defaut fen
+    public static final int h = 9*scale;                                        //Hauteur par defaut fen
+    public static final String IMGPATH = "res/img/";                            //Chemin d'accès aux images
     
     //Variables :
-    public int choice = 0;
+    public int choice = 0;                                                      //Choix de ce qu'il faut afficher : 0:Menu, 1:Jeu, 2:Pause, 3:Options
     
     
     public static void main(String[] args)
@@ -35,7 +36,7 @@ public class TD extends PApplet
         frameRate(60);                                                          //Nombre d'images par seconde
         surface.setTitle(TITLE);                                                //Modifie le titre de la fen
         surface.setResizable(true);                                             //False : on ne peut pas retailler la fen
-        //cursor(loadImage(IMGPATH + "cursor.jpg"), mouseX, mouseY);              //Modifie l'apparence du curseur
+        //cursor(loadImage(IMGPATH + "cursor.gif"), mouseX, mouseY);              //Modifie l'apparence du curseur
         //surface.setIcon(loadImage(IMGPATH + "icon.jpg"));                       //Modifie l'icone de la fen
     }
 
@@ -43,24 +44,29 @@ public class TD extends PApplet
     public void draw() 
     {
         //scale();                                                              //Echelle
-        //background(0);                                                        //Couleur du fond
         PGraphics g2 = createGraphics(w, h);
         g2.beginDraw();
+        //g2.background(0);                                                       //Couleur du fond
         switch(choice)
         {
             case 0:
-                g2.line(0,0,w,h);
+                Ground.draw(g2);
+                Tower.draw(g2);
+                Unit.draw(g2);
+                Interface.draw(g2);
                 break;
             case 1:
                 break;
             case 2:
                 break;
+            case 3:
+                break;
         }
         g2.endDraw();
-        image(g2.get(), 0, 0, width, height);
+        image(g2, 0, 0, width, height);
     }
 
-    @Override 
+    @Override
     public void mousePressed() 
     {
         //noLoop();                                                             //Stop la réactualisation de l'affichage

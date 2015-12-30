@@ -1,8 +1,8 @@
 package TD.UI;
 
-import processing.core.*;
+import processing.core.PGraphics;
 
-public class Unit 
+public class Interface 
 {
     public static void draw(PGraphics g)
     {
