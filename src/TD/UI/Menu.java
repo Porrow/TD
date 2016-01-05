@@ -6,6 +6,6 @@ public class Menu
 {
     public static void draw(PGraphics g)
     {
-        g.line(0, 50, 100, 50);
+        g.rect(0, 0, 40, 40);
     }
 }

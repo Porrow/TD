@@ -1,5 +1,6 @@
 package TD;
 
+import TD.IO.Write;
 import TD.UI.*;
 import processing.core.*;
 
@@ -13,14 +14,19 @@ public class TD extends PApplet
     public static final String IMGPATH = "res/img/";                            //Chemin d'accès aux images
     
     //Variables :
-    public int choice = 0;                                                      //Choix de ce qu'il faut afficher : 0:Menu, 1:Jeu, 2:Pause, 3:Options
-    
+    public int choice = 1;                                                      //Choix de ce qu'il faut afficher : 0:Menu, 1:Jeu, 2:Pause, 3:Options
+    public static PImage[] tabImg = new PImage[2];
     
     public static void main(String[] args)
     {
+        //new Write("res/dat/map1.dat", Write.tab);
         PApplet.main(new String[]{TD.class.getName()});
     }
-    
+    private void loadImages()
+    {   
+        tabImg[0] = requestImage(IMGPATH+"grass.png");
+        tabImg[1] = requestImage(IMGPATH+"path.png");
+    }
     @Override
     public void settings()                                                      //Paramétrage (appelé en premier)
     {
@@ -34,13 +40,17 @@ public class TD extends PApplet
         frameRate(60);                                                          //Nombre d'images par seconde
         surface.setTitle(TITLE);                                                //Modifie le titre de la fen
         surface.setResizable(true);                                             //False : on ne peut pas retailler la fen
+        
         //cursor(loadImage(IMGPATH + "cursor.gif"), mouseX, mouseY);              //Modifie l'apparence du curseur
         //surface.setIcon(loadImage(IMGPATH + "icon.jpg"));                       //Modifie l'icone de la fen
+        loadImages();                                                           //Charge les images
+        Ground.loadMaps();                                                      //Charge les fichiers maps
     }
 
     @Override
     public void draw()                                                          //Affiche tout ce qu'il y a de visible à l'écran (appelé après setup())
     {
+        
         //scale();                                                              //Echelle
         PGraphics g2 = createGraphics(w, h);
         g2.beginDraw();
