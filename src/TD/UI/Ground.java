@@ -7,33 +7,19 @@ import processing.core.*;
 public class Ground 
 {
     public static final String DATPATH = "res/dat/";                            //Chemin d'accès aux données
+    public static final int w = 40;                                             //Largeur d'un carré du terrain
+    public static final int width = 27;                                         //Largeur du terrain en carreaux
     
     static int[] tabMap;
-            
-    public PImage img;
-    public int x;
-    public int y;
-    public boolean isWalkable;
     
-    public Ground(PImage img, int x, int y, boolean isWalkable, boolean isBuildable)
+    public static void loadMaps()                                               //Chargement des maps
     {
-        this.img = img;
-        this.x = x;
-        this.y = y;
-        this.isWalkable = isWalkable;
-    }
-    public static void loadMaps()
-    {  
-        tabMap = Read.read(DATPATH+"map1.dat");
+        tabMap = Read.string2Int(Read.readString(DATPATH+"map1.txt"));
     }
     
-    public static void draw(PGraphics g)
+    public static void draw(PGraphics g)                                        //Affichage du terrain (60 / s)
     {
-        //g.image(TD.grass, 0, 0);
-        //g.image(TD.path, 40, 0);
         for(int i = 0; i < tabMap.length; i++)
-        {
-            g.image(TD.tabImg[tabMap[i]], i * 40, (i % 720) * 40);
-        }
+            g.image(TD.tabImg[tabMap[i]], (i % width) * w, (i / width) * w);
     }
 }

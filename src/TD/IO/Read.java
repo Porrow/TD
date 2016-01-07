@@ -1,15 +1,17 @@
 package TD.IO;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 public class Read
 {
-    public static int[] read(String name)
+    public static int[] readInt(String name)                                    //Lit des entiers dans le fichier name
     {
         int data[];
         try
@@ -59,5 +61,30 @@ public class Read
             System.out.println("Taille de tableau négative.");
         }
         return data;
+    }
+    
+    public static String readString(String name)                                //Lit des chaînes de caractères dans le fichier name
+    { 
+        String txt = "";
+        try 
+        {
+            String ligne;
+            BufferedReader fichier = new BufferedReader(new FileReader(name));
+            while ((ligne = fichier.readLine()) != null) 
+            {
+                txt += ligne;
+            }
+            fichier.close();
+        }
+        catch (Exception e) {System.out.println("Impossible de lire le fichier \"name\"");}     
+        return txt;
+    }
+    
+    public static int[] string2Int(String ch)
+    {
+        int[] tab = new int[ch.length()];
+        for(int i = 0; i < ch.length(); i++)
+            tab[i] = Integer.parseInt(ch.substring(i, i+1));
+        return tab;
     }
 }
