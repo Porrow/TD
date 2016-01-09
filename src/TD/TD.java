@@ -1,6 +1,7 @@
 package TD;
 
 import TD.Event.Event;
+import TD.IO.Read;
 import TD.IO.Write;
 import TD.UI.*;
 import java.io.File;
@@ -13,27 +14,29 @@ public class TD extends PApplet
     public static final int scale = 80;                                         //Echelle de taille de fen : 80 = 720p
     public static final int w = 16*scale;                                       //Largeur par defaut fen
     public static final int h = 9*scale;                                        //Hauteur par defaut fen
-    public static final String IMGPATH = "res/img/";                            //Chemin d'accès aux images
+    public static final String ICONPATH = "res/img/icon/icon.png";              //Chemin d'accès aux images des tours
     
     //Variables :
     public static int choice = 1;                                               //Choix de ce qu'il faut afficher : 0:Menu, 1:Jeu, 2:Pause, 3:Options
-    public static PImage[] tabImg;
     
     public static void main(String[] args)                                      //Début du programme
     {
         PApplet.main(new String[]{TD.class.getName()});
     }
-    //public static loadFiles()
-    private void loadImages()
+
+    private PImage[] loadImages(String path)
     {   
-        File f = new File(IMGPATH+"ground/");
+        String na;
+        File f = new File(path);
         File[] files = f.listFiles();
-        tabImg = new PImage[files.length];
+        PImage[] tabImg = new PImage[files.length];
         for(int i = 0, ind; i < files.length; i++)
         {
-            ind = Integer.parseInt(files[i].getName().substring(0, 2));
-            tabImg[ind] = requestImage(IMGPATH+"ground/"+files[i].getName());
+            na = files[i].getName();
+            ind = Integer.parseInt(na.substring(0, na.indexOf(".")));
+            tabImg[ind] = requestImage(path+files[i].getName());
         }
+        return tabImg;
     }
     @Override
     public void settings()                                                      //Paramétrage (appelé en premier)
@@ -50,8 +53,8 @@ public class TD extends PApplet
         surface.setResizable(true);                                             //False : on ne peut pas retailler la fen
         
         //cursor(loadImage(IMGPATH + "cursor.gif"), mouseX, mouseY);              //Modifie l'apparence du curseur
-        surface.setIcon(loadImage(IMGPATH + "icon/icon.png"));                       //Modifie l'icone de la fen
-        loadImages();                                                           //Charge les images
+        surface.setIcon(loadImage(ICONPATH));                                   //Modifie l'icone de la fen
+        Ground.tabImg = loadImages(Ground.IMGPATH);                             //Charge les images
         Ground.loadMaps();                                                      //Charge les fichiers maps
         new Unit(0);
     }

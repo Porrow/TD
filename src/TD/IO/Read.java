@@ -72,7 +72,7 @@ public class Read
             BufferedReader fichier = new BufferedReader(new FileReader(name));
             while ((ligne = fichier.readLine()) != null) 
             {
-                txt += ligne;
+                txt += ligne+"\n";
             }
             fichier.close();
         }
@@ -80,11 +80,18 @@ public class Read
         return txt;
     }
     
-    public static int[] string2Int(String ch)
+    public static int[][] string2Int(String ch)                                 //Convertit une chaine de caractère en double tableau d'entiers
     {
-        int[] tab = new int[ch.length()];
-        for(int i = 0; i < ch.length(); i++)
-            tab[i] = Integer.parseInt(ch.substring(i, i+1));
+        String[] tl = ch.split("\n");
+        String[] tc;
+        int[][] tab = new int[tl.length][];
+        for(int i = 0; i < tl.length; i++)
+        {
+            tc = tl[i].split(" ");
+            tab[i] = new int[tc.length];
+            for(int j = 0; j < tc.length;j++)
+                tab[i][j] = Integer.parseInt(tc[j]);
+        }
         return tab;
     }
 }
