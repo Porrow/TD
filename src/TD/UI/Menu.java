@@ -4,8 +4,11 @@ import processing.core.PGraphics;
 
 public class Menu 
 {
+    public static int col = 0;
     public static void draw(PGraphics g)
     {
-        g.rect(0, 0, 40, 40);
+        //g.color(col);
+        g.fill(col % 255);
+        g.ellipse(150, 150, 100, 100);
     }
 }

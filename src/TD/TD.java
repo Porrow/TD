@@ -1,8 +1,6 @@
 package TD;
 
 import TD.Event.Event;
-import TD.IO.Read;
-import TD.IO.Write;
 import TD.UI.*;
 import java.io.File;
 import processing.core.*;
@@ -34,7 +32,7 @@ public class TD extends PApplet
         {
             na = files[i].getName();
             ind = Integer.parseInt(na.substring(0, na.indexOf(".")));
-            tabImg[ind] = requestImage(path+files[i].getName());
+            tabImg[ind] = loadImage(path + na);
         }
         return tabImg;
     }
@@ -54,16 +52,16 @@ public class TD extends PApplet
         
         //cursor(loadImage(IMGPATH + "cursor.gif"), mouseX, mouseY);              //Modifie l'apparence du curseur
         surface.setIcon(loadImage(ICONPATH));                                   //Modifie l'icone de la fen
-        Ground.tabImg = loadImages(Ground.IMGPATH);                             //Charge les images
-        Ground.loadMaps();                                                      //Charge les fichiers maps
-        new Unit(0);
+        Ground.tabImg = loadImages(Ground.IMGPATH);                             //Charge les images du terrain
+        Tower.tabImg = loadImages(Tower.IMGPATH);                               //Charge les images des tours
+        Unit.tabImg = loadImages(Unit.IMGPATH);                                 //Charge les images des unités
+        Ground.init(0, createGraphics(w, h));                                   //Initialise le terrain
+        Unit.init();
     }
 
     @Override
     public void draw()                                                          //Affiche tout ce qu'il y a de visible à l'écran (appelé après setup())
     {
-        
-        //scale();                                                              //Echelle
         PGraphics g2 = createGraphics(w, h);
         g2.beginDraw();                                                         //Permet de dessiner sur g2
         g2.background(0);                                                       //Couleur du fond

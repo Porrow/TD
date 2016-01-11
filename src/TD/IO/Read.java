@@ -94,4 +94,18 @@ public class Read
         }
         return tab;
     }
+    public static int[][][] loadFiles(String path)                              //Chargement des fichier dans path
+    {
+        String na;
+        File f = new File(path);
+        File[] files = f.listFiles();
+        int[][][] tabDat = new int[files.length][][];
+        for(int i = 0, ind; i < files.length; i++)
+        {
+            na = files[i].getName();
+            ind = Integer.parseInt(na.substring(0, na.indexOf(".")));
+            tabDat[ind] = Read.string2Int(Read.readString(path + na));
+        }
+        return tabDat;
+    }
 }
