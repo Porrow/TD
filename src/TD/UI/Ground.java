@@ -10,6 +10,7 @@ public class Ground
     public static final String MAPPATH = "res/dat/ground/maps/";                //Chemin d'accès aux maps
     public static final String PROFILE = "res/dat/ground/wb.txt";               //fichier des propriétés (walkable buildable)
     public static final int W = 40;                                             //Largeur d'un carré du terrain
+    public static final int SPAWN = 17;                                         //Index correspondant au spawn
     //public static final int width = 27;                                         //Largeur du terrain en carreaux
     
     //Variables :
@@ -29,6 +30,20 @@ public class Ground
                 g.image(tabImg[tabMap[map][i][j]], j * W, i * W);
         g.endDraw();
         imgMap = g;
+        Ground.map = map;
+    }
+    
+    public static int[] getSpawn()
+    {
+        int[] coord = new int[2];
+        for(int i = 0; i < tabMap[map].length; i++)
+            for(int j = 0; j < tabMap[map][i].length; j++)
+                if(tabMap[map][i][j] == SPAWN)
+                {
+                    coord[0] = j;
+                    coord[1] = i;
+                }
+        return coord;
     }
     
     public static void draw(PGraphics g)                                        //Affichage du terrain (60 / s)

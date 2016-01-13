@@ -1,6 +1,7 @@
 package TD;
 
 import TD.Event.Event;
+import TD.Sound.Sound;
 import TD.UI.*;
 import java.io.File;
 import processing.core.*;
@@ -12,6 +13,7 @@ public class TD extends PApplet
     public static final int scale = 80;                                         //Echelle de taille de fen : 80 = 720p
     public static final int w = 16*scale;                                       //Largeur par defaut fen
     public static final int h = 9*scale;                                        //Hauteur par defaut fen
+    public static final int fps = 60;                                           //Nombre d'ips
     public static final String ICONPATH = "res/img/icon/icon.png";              //Chemin d'accès aux images des tours
     
     //Variables :
@@ -19,6 +21,7 @@ public class TD extends PApplet
     
     public static void main(String[] args)                                      //Début du programme
     {
+        //System.out.println(Math.round(1000. / TD.fps));
         PApplet.main(new String[]{TD.class.getName()});
     }
 
@@ -31,11 +34,16 @@ public class TD extends PApplet
         for(int i = 0, ind; i < files.length; i++)
         {
             na = files[i].getName();
-            ind = Integer.parseInt(na.substring(0, na.indexOf(".")));
-            tabImg[ind] = loadImage(path + na);
+            String name = na.substring(0, na.indexOf("."));
+            if(!name.equals("Thumbs"))
+            {
+                ind = Integer.parseInt(name);
+                tabImg[ind] = loadImage(path + na);
+            }
         }
         return tabImg;
     }
+    public static void b(){System.out.println("Bonjour");}
     @Override
     public void settings()                                                      //Paramétrage (appelé en premier)
     {
@@ -46,7 +54,7 @@ public class TD extends PApplet
     @Override
     public void setup()                                                         //Initialisation (appelé après settings())
     {
-        frameRate(60);                                                          //Nombre d'images par seconde
+        frameRate(fps);                                                          //Nombre d'images par seconde
         surface.setTitle(TITLE);                                                //Modifie le titre de la fen
         surface.setResizable(true);                                             //False : on ne peut pas retailler la fen
         
@@ -57,6 +65,9 @@ public class TD extends PApplet
         Unit.tabImg = loadImages(Unit.IMGPATH);                                 //Charge les images des unités
         Ground.init(0, createGraphics(w, h));                                   //Initialise le terrain
         Unit.init();
+        Sound.init();
+        //Sound.play(0);
+        new Move();
     }
 
     @Override
