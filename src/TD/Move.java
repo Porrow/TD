@@ -5,16 +5,13 @@ import TD.UI.Unit;
 
 public class Move extends Thread
 {
-    public Move()
-    {
-        start();
-    }
-    
     @Override
     public synchronized void run()
     {
+        long tisl;
         while(true)
         {
+            tisl = Math.round(1000. / TD.fps);
             for(Unit u : Unit.units)
             {
                 switch(u.direc)
@@ -41,9 +38,16 @@ public class Move extends Thread
                         break;
                         
                 }
+                //System.out.println(u.time);
+                if(Unit.tabAnim[u.type][u.img] <= (int)(u.time))
+                {
+                    u.time -= Unit.tabAnim[u.type][u.img];
+                    u.img = (u.img+1) % Unit.tabAnim[u.type].length;
+                }
+                u.time += tisl;
                 //System.out.println("x = "+u.x+"\ny = "+u.y);
             }
-            try{Thread.sleep(Math.round(1000. / TD.fps));}
+            try{Thread.sleep(tisl);}
             catch (InterruptedException e){}
         }
     }

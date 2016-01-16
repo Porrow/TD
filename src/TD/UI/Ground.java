@@ -11,7 +11,7 @@ public class Ground
     public static final String PROFILE = "res/dat/ground/wb.txt";               //fichier des propriétés (walkable buildable)
     public static final int W = 40;                                             //Largeur d'un carré du terrain
     public static final int SPAWN = 17;                                         //Index correspondant au spawn
-    //public static final int width = 27;                                         //Largeur du terrain en carreaux
+    public static final int WIDTH = 27;                                         //Largeur du terrain en carreaux
     
     //Variables :
     public static PImage[] tabImg;                                              //Contient toutes les images du terrain

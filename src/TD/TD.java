@@ -4,6 +4,7 @@ import TD.Event.Event;
 import TD.Sound.Sound;
 import TD.UI.*;
 import java.io.File;
+import ddf.minim.*;
 import processing.core.*;
 
 public class TD extends PApplet
@@ -18,6 +19,8 @@ public class TD extends PApplet
     
     //Variables :
     public static int choice = 1;                                               //Choix de ce qu'il faut afficher : 0:Menu, 1:Jeu, 2:Pause, 3:Options
+    
+    public Minim minim;
     
     public static void main(String[] args)                                      //Début du programme
     {
@@ -54,20 +57,24 @@ public class TD extends PApplet
     @Override
     public void setup()                                                         //Initialisation (appelé après settings())
     {
-        frameRate(fps);                                                          //Nombre d'images par seconde
+        frameRate(fps);                                                         //Nombre d'images par seconde
         surface.setTitle(TITLE);                                                //Modifie le titre de la fen
-        surface.setResizable(true);                                             //False : on ne peut pas retailler la fen
+        surface.setResizable(false);                                            //False : on ne peut pas retailler la fen
         
         //cursor(loadImage(IMGPATH + "cursor.gif"), mouseX, mouseY);              //Modifie l'apparence du curseur
         surface.setIcon(loadImage(ICONPATH));                                   //Modifie l'icone de la fen
         Ground.tabImg = loadImages(Ground.IMGPATH);                             //Charge les images du terrain
         Tower.tabImg = loadImages(Tower.IMGPATH);                               //Charge les images des tours
         Unit.tabImg = loadImages(Unit.IMGPATH);                                 //Charge les images des unités
+        Interface.tabImg = loadImages(Interface.IMGPATH);                       //Charge les images de l'interface
+        
         Ground.init(0, createGraphics(w, h));                                   //Initialise le terrain
+        Tower.init();
         Unit.init();
-        Sound.init();
+        minim = new Minim(this);
+        Sound.init(minim);
         //Sound.play(0);
-        new Move();
+        new Move().start();
     }
 
     @Override
@@ -76,6 +83,7 @@ public class TD extends PApplet
         PGraphics g2 = createGraphics(w, h);
         g2.beginDraw();                                                         //Permet de dessiner sur g2
         g2.background(0);                                                       //Couleur du fond
+        g2.smooth();
         switch(choice)                                                          //Choix de l'affichage
         {
             case 0:                                                             //Menu
@@ -93,20 +101,21 @@ public class TD extends PApplet
                 break;
         }
         g2.endDraw();                                                           //Plus le droit de dessiner sur g2
-        image(g2, 0, 0, width, height);                                         //Affichage de g2 redimenssionné à la taille de la fenêtre
+        image(g2, 0, 0, width, height);                                         //Affichage de g2 redimenssionné à la taille de la fenêtretext(frameCount, 10, 10);
+        text((int)(frameRate)+" FPS", 10, 15);
     }
 
     @Override
     public void mousePressed() 
     {
-        //noLoop();                                                             //Stop la réactualisation de l'affichage
+        super.mousePressed();
         Event.mousePressed(mouseX, mouseY);                                     //On traite les évênements dans Event
     }
-
     @Override
-    public void mouseReleased() 
+    public void mouseMoved() 
     {
-        //loop();                                                               //Fait repartir la réactualisation
+        super.mouseMoved();
+        Event.mouseMoved(mouseX, mouseY);
     }
     
     @Override
