@@ -1,6 +1,8 @@
 package TD.Event;
 
+import TD.Sound.Sound;
 import TD.TD;
+import TD.UI.GameOver;
 import TD.UI.Ground;
 import TD.UI.Interface;
 import TD.UI.Menu;
@@ -9,6 +11,8 @@ import TD.UI.Tower;
 
 public class Event
 {
+    private static int remember = -1;
+    
     public static boolean inRect(int mx, int my, int x1, int y1, int x2, int y2)//True si (posX, posY) est dans le carré définie par x1,y1,x2,y2
     {
         return mx >= x1 && mx <= x2 && my >= y1 && my <= y2;
@@ -68,6 +72,7 @@ public class Event
                 {
                     Tower.towers.add(new Tower(Interface.selec - 1, mx / Ground.W, my / Ground.W));
                     Tower.selec = Tower.towers.size()-1;
+                    Interface.selec = 0;
                 }
                 //else if()
                 //    Tower.selec
@@ -81,7 +86,10 @@ public class Event
                     TD.choice = 0;
                 }
                 break;
-
+            case 5:
+                if(inRect(mx, my, 420, 610, 860, 650))
+                    TD.choice=0;
+                break;
         }
     }
 
@@ -90,17 +98,33 @@ public class Event
         switch(TD.choice)
         {
             case 0:
-                if(inRect(mx, my, 530, 300, 730, 380))                          //Bouton jouer
+                if(inRect(mx, my, 530, 300, 730, 380)) {                        //Bouton jouer
+                    if (remember != 1) {
+                        Sound.playSounds(1);
+                        remember=1;
+                    }
                     Menu.colJ = TD.COLOR2;
-                else if(inRect(mx, my, 520, 490, 720, 530))                     //Bouton score
+                }
+                else if(inRect(mx, my, 520, 490, 720, 530))  {                  //Bouton score
+                    if (remember != 2) {
+                        Sound.playSounds(1);
+                        remember=2;
+                    }
                     Menu.colS = TD.COLOR2;
-                else if(inRect(mx, my, 560, 650, 700, 700))                     //Bouton quitter
+                }
+                else if(inRect(mx, my, 560, 650, 700, 700))  {                  //Bouton quitter
+                    if (remember != 3) {
+                        Sound.playSounds(1);
+                        remember=3;
+                    }
                     Menu.colQ = TD.COLOR2;
+                }
                 else
                 {
                     Menu.colJ = TD.COLOR1;
                     Menu.colS = TD.COLOR1;
                     Menu.colQ = TD.COLOR1;
+                    remember=-1;
                 }
                 break;
             case 1:
@@ -110,10 +134,30 @@ public class Event
             case 2:
                 break;
             case 3:
-                if(inRect(mx, my, 1000, 620, 1250, 680))
+                if(inRect(mx, my, 1000, 620, 1250, 680)) {
+                    if (remember != 1) {
+                        Sound.playSounds(1);
+                        remember=1;
+                    }
                     Score.colR = TD.COLOR2;
-                else
+                }
+                else {
+                    remember=-1;
                     Score.colR = TD.COLOR1;
+                }
+                break;
+            case 5:
+                if(inRect(mx, my, 420, 610, 860, 650)) {
+                    if (remember != 1) {
+                        Sound.playSounds(1);
+                        remember=1;
+                    }
+                    GameOver.colR = TD.COLOR2;
+                }
+                else {
+                    remember=-1;
+                    GameOver.colR = TD.COLOR1;
+                }
                 break;
         }
     }

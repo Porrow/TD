@@ -4,8 +4,8 @@ import TD.IO.Read;
 import TD.TD;
 import processing.core.*;
 
-public class Score {
-    
+public class Score 
+{    
     public static final String IMGPATH = "res/img/score/";
     public static final String SCOREPATH = "res/dat/score/";
     public static PImage[] tabImg;

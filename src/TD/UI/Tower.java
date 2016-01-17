@@ -8,7 +8,7 @@ public class Tower
 {
     public static final String IMGPATH = "res/img/tower/";                      //Chemin d'accès aux images des tours
     public static final String PROPATH = "res/dat/tower/";                      //chemin d'accès aux propriétés : att, range, speed, cost
-    public static final int[] colR = {0, 150, 0, 70};
+    public static final int[] colR = {0, 150, 0, 70};                           //Couleur de la portée
     
     public static PImage[] tabImg;
     public static ArrayList<Tower> towers = new ArrayList<>();

@@ -36,10 +36,13 @@ public class TD extends PApplet
         surface.setIcon(loadImage(ICONPATH));                                   //Modifie l'icone de la fen
         Ground.tabImg = loadImages(Ground.IMGPATH);                             //Charge les images du terrain
         Tower.tabImg = loadImages(Tower.IMGPATH);                               //Charge les images des tours
-        Unit.tabImg = loadImages(Unit.IMGPATH);                                 //Charge les images des unités
+        Unit.tabBaseImg = loadImages(Unit.IMGPATH);                             //Charge les images des unités
+        for(int i = 0; i < Unit.tabBaseImg.length; i++)
+            Unit.tabImg[i] = cut(Unit.tabBaseImg[i]);
         Interface.tabImg = loadImages(Interface.IMGPATH);                       //Charge les images de l'interface
         Menu.tabImg = loadImages(Menu.IMGPATH);
         Score.tabImg = loadImages(Score.IMGPATH);
+        GameOver.tabImg = loadImages(GameOver.IMGPATH);
         Score.init();
     }
 
@@ -64,15 +67,16 @@ public class TD extends PApplet
     
     private PImage[][]cut(PImage base)
     {
-        PImage[][] tfin = new PImage[base.height/40][base.width/40];
-        for(int i=0;i<base.height;++i) 
+        int w = Ground.W;
+        PImage[][] tfin = new PImage[base.height/w][base.width/w];
+        for(int i=0;i<base.height/w; ++i)
         {
-            for(int j=0;j<base.width;++j) 
+            for(int j=0;j<base.width/w; ++j)
             {
-                tfin[i][j].copy(base,i*40, j*40, base.width, base.height, 0, 0, 40, 40);
+                tfin[i][j] = createImage(w, w, ARGB);
+                tfin[i][j].copy(base, j*w, i*w, w, w, 0, 0, w, w);
             }
         }
-        
         return tfin;
     }
     
@@ -131,6 +135,9 @@ public class TD extends PApplet
                 break;
             case 3:
                 Score.draw(this);
+                break;
+            case 5:
+                GameOver.draw(g);
                 break;
             default:
                 exit();

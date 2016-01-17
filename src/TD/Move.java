@@ -8,7 +8,7 @@ public class Move extends Thread {
 
     @Override
     public void run() {
-        long tisl, respawn = 0, chrono = 0,inter=0;
+        long tisl, respawn = 0, chrono = 0, inter = 0;
         Unit uni = null;
         while (true) {
             tisl = Math.round(1000. / TD.fps);
@@ -57,7 +57,7 @@ public class Move extends Thread {
                         }
 
                         //System.out.println(u.time);
-                        if (Unit.tabAnim[u.type][u.img] <= (int) (u.time)) {
+                        if (Unit.tabAnim[u.type][u.img] <= (int)(u.time)) {
                             u.time -= Unit.tabAnim[u.type][u.img];
                             u.img = (u.img + 1) % Unit.tabAnim[u.type].length;
                         }
