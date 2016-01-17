@@ -12,11 +12,13 @@ public class Unit
     
     public static PImage[] tabImg;
     public static ArrayList<Unit> units = new ArrayList<>();
+    public static ArrayList<Unit> toSpawn = new ArrayList<>();
     public static int[][] tabProp;                                              //Contient les propriétés de chaque type d'unité
     public static int[] spawn;                                                  //Coordonnées du spawn
     public static int[][] tabAnim;
+    public static int number = 2;
     
-    public int img;                                                             //Index de l'image
+    public int img;                                                             //Index de l'image et la première vague
     public long time = 0;                                                       //Variable repère pour les animations
     public int xc, yc;                                                          //Coordonnées de la case associée
     public float x, y;                                                          //Dans l'ordre : coordonnées, type, vie, vitesse(pix/s), or, direction
@@ -60,32 +62,42 @@ public class Unit
         xc++;                                                                   //Fonctionne : pas d'impasses
         return 3;
     }
-    
+
     public static void init()
     {
         loadProperties();
         spawn = Ground.getSpawn();
         units.add(new Unit(0));
     }
+    
+    public static void loadEnemies(int number) 
+    {
+        for (int i = 0; i < number; ++i)
+            toSpawn.add(new Unit(0));
+        ++Unit.number;
+    }
+
     public static void loadProperties()                                         //Chargement des informations sur chaque unités : life, speed..
     {
         tabProp = Read.string2Int(Read.readString(PROFILE));
         tabAnim = Read.string2Int(Read.readString(ANIFILE));
     }
     
-    public static synchronized void draw(PGraphics g)
+    public static void draw(PGraphics g)
     {
-        
-        for(Unit u : units)
+        synchronized(units)
         {
-            //g.translate(g.width/2, g.height/2);
-            //g.rotate(g.PI / 2);
-            //g.translate(-tabImg[u.img].width/2, -tabImg[u.img].height/2);
-            g.image(tabImg[u.img], (int)(u.x), (int)(u.y));
-            //g.rotate(g.PI/60);
-            //g.image(tabImg[u.img], 100, 100);
-            //System.out.println(u.y+"x = "+u.x);
-            //u.y += 1;
+            for(Unit u : units)
+            {
+                //g.translate(g.width/2, g.height/2);
+                //g.rotate(g.PI / 2);
+                //g.translate(-tabImg[u.img].width/2, -tabImg[u.img].height/2);
+                g.image(tabImg[u.img], (int)(u.x), (int)(u.y));
+                //g.rotate(g.PI/60);
+                //g.image(tabImg[u.img], 100, 100);
+                //System.out.println(u.y+"x = "+u.x);
+                //u.y += 1;
+            }
         }
     }
 }

@@ -66,7 +66,7 @@ public class Read
     public static String readString(String name)                                //Lit des chaînes de caractères dans le fichier name
     { 
         String txt = "";
-        try 
+        try
         {
             String ligne;
             BufferedReader fichier = new BufferedReader(new FileReader(name));
