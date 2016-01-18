@@ -17,9 +17,11 @@ public class Unit
     public static int[][] tabProp;                                              //Contient les propriétés de chaque type d'unité
     public static int[] spawn;                                                  //Coordonnées du spawn
     public static int[][] tabAnim;
-    public static int number = 2;                                               //Nombre d'unités à faire spawn
-    public static int[] colB = {200, 0, 0, 255};
-    
+    public static int wave = 1;                                                 //Nombre d'unités à faire spawn
+    public static int[] colB1 = {0, 200, 0, 255};
+    public static int[] colB2 = {200, 200, 0, 255};
+    public static int[] colB3 = {200, 0, 0, 255};
+
     public int img;                                                             //Index de l'image et la première vague
     public long time = 0;                                                       //Variable repère pour les animations
     public int xc, yc;                                                          //Coordonnées de la case associée
@@ -69,14 +71,20 @@ public class Unit
     {
         loadProperties();
         spawn = Ground.getSpawn();
-        units.add(new Unit(1));
     }
     
-    public static void loadEnemies(int number) 
+    public static void newWave(int wave) 
+    {
+        loadEnemies((int) ((wave/2)*1.5),0);
+        loadEnemies(wave/2,1);
+        loadEnemies((int)((wave/3)*0.9),2);
+    }
+
+    
+    private static void loadEnemies(int number,int type) 
     {
         for (int i = 0; i < number; ++i)
-            toSpawn.add(new Unit(0));
-        ++Unit.number;
+            toSpawn.add(new Unit(type));
     }
 
     public static void loadProperties()                                         //Chargement des informations sur chaque unités : life, speed..
@@ -93,8 +101,23 @@ public class Unit
             {
                 g.image(tabImg[u.type][u.direc][u.img], u.x, u.y);
                 g.rectMode(g.CENTER);
-                g.fill(colB[0], colB[1], colB[2], colB[3]);
-                g.rect(u.x + 20, u.y - 5, u.life, 5);
+                g.stroke(1);
+                if(tabProp[u.type][0] <= 200)
+                {
+                    g.fill(colB1[0], colB1[1], colB1[2], colB1[3]);
+                    g.rect(u.x + 20, u.y - 5, u.life, 3);
+                }
+                else if(tabProp[u.type][0] > 200 && tabProp[u.type][0] <= 400)
+                {
+                    g.fill(colB2[0], colB2[1], colB2[2], colB2[3]);
+                    g.rect(u.x + 20, u.y - 5, u.life / 2, 4);
+                }
+                else
+                {
+                    g.fill(colB3[0], colB3[1], colB3[2], colB3[3]);
+                    g.rect(u.x + 20, u.y - 5, u.life / 10, 6);
+                }
+                //g.rect(u.x + 20, u.y - 5, u.life, 3);
                 g.rectMode(g.CORNER);
             }
         }

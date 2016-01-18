@@ -1,8 +1,7 @@
 package TD.UI;
 
-import TD.UI.Tower;
-import processing.core.PGraphics;
-import processing.core.PImage;
+import TD.Sound.Sound;
+import processing.core.*;
 
 public class Interface
 {
@@ -22,16 +21,24 @@ public class Interface
             int range = Tower.tabProp[1][selec - 1][0];
             g.noStroke();
             g.fill(Tower.colR[0], Tower.colR[1], Tower.colR[2], Tower.colR[3]);
-            g.ellipse(mx, my - 10, range / 2, range / 2);
-            g.image(Tower.tabImg[0], x, y);
+            g.ellipse(mx, my - 10, range * 2, range * 2);
+            g.image(Tower.tabImg[selec - 1][0], x, y);
         }
         g.image(tabImg[selec], Ground.WIDTH * Ground.W, 0);
+        g.fill(255, 255, 255);
+        g.textSize(20);
+        g.textAlign(PApplet.CENTER);
         if(inter>50)
         {
-            g.fill(255, 0, 0);
-            g.textSize(20);
-            g.text("Prochaine vague dans: "+((inter/1000)+1), 1010, 30);
-            g.textSize(60);
+            g.text("Prochaine vague dans: "+((inter/1000)+1), 640, 30);
         }
+        else {
+            g.text("Vague n° "+ (Unit.wave-1),640,30);
+        }
+        g.textSize(60);
+        if(Sound.isMute)
+            g.image(tabImg[6], 1050, 690);
+        else
+            g.image(tabImg[7], 1050, 690);
     }
 }

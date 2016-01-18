@@ -17,6 +17,5 @@ public class GameOver {
         g.fill(colR[0], colR[1], colR[2]);
         g.text("Menu principal", 640, 650);
         g.fill(255, 255, 255);
-        
     }
 }

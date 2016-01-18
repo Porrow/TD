@@ -21,7 +21,8 @@ public class TD extends PApplet
     
     //Variables :
     public static int choice = 0;                                               //Choix de ce qu'il faut afficher : 0:Menu, 1:Jeu, 2:Pause, 3:Score
-    public static int life = 1;
+    public static int life;
+    public static int gold;
     
     private PFont font;
     public Minim minim;
@@ -35,7 +36,9 @@ public class TD extends PApplet
     {
         surface.setIcon(loadImage(ICONPATH));                                   //Modifie l'icone de la fen
         Ground.tabImg = loadImages(Ground.IMGPATH);                             //Charge les images du terrain
-        Tower.tabImg = loadImages(Tower.IMGPATH);                               //Charge les images des tours
+        Tower.tabImg = cut(loadImage(Tower.IMGFILE));
+        Tower.imgDestroy = loadImage(Tower.IMGDFILE);
+        Tower.imgImprove = loadImage(Tower.IMGIFILE);
         Unit.tabBaseImg = loadImages(Unit.IMGPATH);                             //Charge les images des unités
         for(int i = 0; i < Unit.tabBaseImg.length; i++)
             Unit.tabImg[i] = cut(Unit.tabBaseImg[i]);
@@ -82,10 +85,12 @@ public class TD extends PApplet
     
     public static void gameInit()                                               //Initialisation du jeu
     {
+        TD.life = 10;
+        TD.gold = 500;
+        Tower.selec = -1;
         Sound.stop();
         Sound.play(1);
-        Tower.init();
-        Unit.init();
+        Unit.newWave(Unit.wave = 1);
         new Move().start();
     }
     
@@ -108,6 +113,8 @@ public class TD extends PApplet
         font = createFont("FreeMonoBold", 60);
         g.textFont(font);
         Ground.init(0, createGraphics(w, h));                                   //Initialise le terrain
+        Tower.init();
+        Unit.init();
         
         minim = new Minim(this);
         Sound.init(minim);
@@ -127,8 +134,8 @@ public class TD extends PApplet
                 break;
             case 1:                                                             //Jeu
                 Ground.draw(g);
-                Tower.draw(g);
                 Unit.draw(g);
+                Tower.draw(g);
                 Interface.draw(g);
                 break;
             case 2:                                                             
@@ -172,7 +179,6 @@ public class TD extends PApplet
     public void exit()
     {
         super.exit();
-        Sound.quit();
         minim.stop();
     }
 }

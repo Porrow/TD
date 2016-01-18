@@ -2,10 +2,13 @@ package TD;
 
 import TD.UI.Ground;
 import TD.UI.Interface;
+import TD.UI.Tower;
 import TD.UI.Unit;
 
 public class Move extends Thread {
 
+    private final int LATENCE = 5000;
+    
     @Override
     public void run() {
         long tisl, respawn = 0, chrono = 0, inter = 0;
@@ -27,7 +30,8 @@ public class Move extends Thread {
                         if (Ground.tabMap[Ground.map][u.yc][u.xc] == Ground.DESPAWN) {
                             --TD.life;
                             uni = u;
-                        } else {
+                        } 
+                        else {
                             switch (u.direc) {
                                 case 0:
                                     u.y -= (float) (u.speed) / TD.fps;
@@ -67,18 +71,28 @@ public class Move extends Thread {
                     if (uni != null) {
                         Unit.units.remove(uni);
                     }
-                } else {
+                } 
+                else {
                     inter=java.lang.System.currentTimeMillis() - chrono;
                     if (chrono == 0) {
+                        ++Unit.wave;
                         chrono = java.lang.System.currentTimeMillis();
-                    } else if (inter >= 5000) {
-                        Unit.loadEnemies(Unit.number);
+                    } 
+                    else if (inter >= LATENCE) {
+                        Unit.newWave(Unit.wave);
                         Unit.units.add(Unit.toSpawn.get(0));
                         Unit.toSpawn.remove(0);
                         chrono = 0;
-                    } else {
-                        Interface.inter=5000-inter;                                  //afficher le temps restant avant la prochaine vague    
                     }
+                    else {
+                        Interface.inter=LATENCE-inter;                                  //afficher le temps restant avant la prochaine vague    
+                    }
+                }
+                if(TD.life <= 0)                                                //Game Over
+                {
+                    Tower.towers.removeAll(Tower.towers);
+                    TD.choice = 5;
+                    break;
                 }
             }
             try {

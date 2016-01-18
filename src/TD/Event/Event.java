@@ -42,6 +42,45 @@ public class Event
         return false;
     }
     
+    public static boolean inTowerCase(int mx, int my)
+    {
+        int x = mx / Ground.W;
+        int y = my / Ground.W;
+        for(Tower t : Tower.towers)
+        {
+            if(x == t.xc && y == t.yc)
+            {
+                Tower.selec = Tower.towers.indexOf(t);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static boolean inDestroyButton(int mx, int my)
+    {
+        if(Tower.selec != -1 && !Tower.towers.isEmpty())
+        {
+            int w = Ground.W;
+            Tower t = Tower.towers.get(Tower.selec);
+            if(inRect(mx, my, (t.xc-1) * w, t.yc * w, t.xc * w, t.yc * w + 30)) 
+                return true;
+        }
+        return false;
+    }
+    
+    public static boolean inImproveButton(int mx, int my)
+    {
+        if(Tower.selec != -1 && !Tower.towers.isEmpty())
+        {
+            int w = Ground.W;
+            Tower t = Tower.towers.get(Tower.selec);
+            if(inRect(mx, my, (t.xc+1) * w, t.yc * w,(t.xc+2) * w, t.yc * w + 30)) 
+                return true;
+        }
+        return false;
+    }
+    
     public static void mousePressed(int mx, int my)
     {
         switch(TD.choice)
@@ -71,13 +110,27 @@ public class Event
                 else if(inBuildableCase(mx, my))
                 {
                     Tower.towers.add(new Tower(Interface.selec - 1, mx / Ground.W, my / Ground.W));
-                    Tower.selec = Tower.towers.size()-1;
+                    Tower.selec = Tower.towers.size() - 1;
                     Interface.selec = 0;
                 }
-                //else if()
-                //    Tower.selec
+                else if(inTowerCase(mx, my));                                   //C'est normal panic pas...
+                else if(inDestroyButton(mx, my))
+                {
+                    Tower.towers.remove(Tower.selec);
+                    Tower.selec = -1;
+                }
+                else if(inImproveButton(mx, my))
+                {
+                    Tower.towers.get(Tower.selec).levelUp();
+                    Tower.selec = -1;
+                }
+                else if(inCircle(mx, my, 1065,700,15))
+                    Sound.mute();
                 else
+                {
+                    Tower.selec = -1;
                     Interface.selec = 0;                                        //Déselection
+                }
                 break;
             case 3:
                 if(inRect(mx, my, 1000, 620, 1250, 680))
@@ -88,7 +141,10 @@ public class Event
                 break;
             case 5:
                 if(inRect(mx, my, 420, 610, 860, 650))
-                    TD.choice=0;
+                {
+                    Menu.colJ = TD.COLOR1;
+                    TD.choice = 0;
+                }
                 break;
         }
     }
