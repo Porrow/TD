@@ -20,12 +20,16 @@ public class Tower
     public static PImage imgDestroy;
     public static PImage imgImprove;
     
+    public long time;                                                           //Timer les projectiles
+    public Unit focus;                                                          //Unité ciblée
     public int type;                                                            //type de tour
     public int xc, yc, att, lvl, range, speed, cost;                            //Dans l'ordre : coordonnées, attaque, niveau, portée, vitesse, coût
     
     public Tower(int type, int x, int y)                                        //Type de tour, coordonnées sur la grille
     {
         this.type = type;
+        time = 0;
+        focus = null;
         xc = x;
         yc = y;
         lvl = 0;
@@ -37,7 +41,7 @@ public class Tower
     
     public void levelUp()
     {
-        if(lvl < 2)
+        if(lvl < MAXLEVEL)
         {
             lvl++;
             att = tabProp[0][type][lvl];
@@ -56,9 +60,7 @@ public class Tower
     {
         int w = Ground.W;
         for(Tower u : towers)
-        {
             g.image(tabImg[u.type][u.lvl], u.xc * Ground.W, u.yc * Ground.W);
-        }
         if(!towers.isEmpty() && selec != -1)                                    //Si une tourelle est sélectionnée...
         {
             Tower t = towers.get(selec);

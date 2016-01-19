@@ -34,7 +34,6 @@ public class Read
                     if(!fin)
                     {
                         data[i] = n;
-                        //System.out.println("valeur lue = "+n);
                     }
                 }
                 dis.close();

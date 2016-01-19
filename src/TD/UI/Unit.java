@@ -9,9 +9,10 @@ public class Unit
     public static final String IMGPATH = "res/img/unit/";                       //Chemin d'accès aux images des unités
     public static final String PROFILE = "res/dat/unit/lsg.txt";                //fichier des propriétés (life speed gold)
     public static final String ANIFILE = "res/dat/unit/anim.txt";               //fichier des propriétés (life speed gold)
+    public static final int colli = 10;
     
     public static PImage[] tabBaseImg;                                          //Tableau qui contient les sprites sheet
-    public static PImage[][][] tabImg = new PImage[12][][];                     //Double tableau d'image
+    public static PImage[][][] tabImg = new PImage[13][][];                     //Double tableau d'image
     public static ArrayList<Unit> units = new ArrayList<>();
     public static ArrayList<Unit> toSpawn = new ArrayList<>();
     public static int[][] tabProp;                                              //Contient les propriétés de chaque type d'unité
@@ -42,26 +43,29 @@ public class Unit
         direc = getDirection();
     }
     
-    public int getDirection()
-    {
+    public int getDirection() {
         int c;
-        c = Ground.tabMap[Ground.map][yc - 1][xc];                              //Case juste au-dessus
-        if(Ground.tabProp[c][0] == 1 && direc != 1)                             //Si on peut marcher dessus et qu'il ne s'agit pas de la direction opposée
-        {
-            yc--;
-            return 0;
+        if (yc != 0) {
+            c = Ground.tabMap[Ground.map][yc - 1][xc];                          //Case juste au-dessus
+            if (Ground.tabProp[c][0] == 1 && direc != 1)                        //Si on peut marcher dessus et qu'il ne s'agit pas de la direction opposée
+            {
+                yc--;
+                return 0;
+            }
         }
-        c = Ground.tabMap[Ground.map][yc + 1][xc];                              //Case juste en-dessous
-        if(Ground.tabProp[c][0] == 1 && direc != 0)
-        {
-            yc++;
-            return 1;
+        if (yc != 18) {
+            c = Ground.tabMap[Ground.map][yc + 1][xc];                          //Case juste en-dessous
+            if (Ground.tabProp[c][0] == 1 && direc != 0) {
+                yc++;
+                return 1;
+            }
         }
-        c = Ground.tabMap[Ground.map][yc][xc - 1];                              //Case juste à gauche
-        if(Ground.tabProp[c][0] == 1 && direc != 3)
-        {
-            xc--;
-            return 2;
+        if (xc != 0) {
+            c = Ground.tabMap[Ground.map][yc][xc - 1];                          //Case juste à gauche
+            if (Ground.tabProp[c][0] == 1 && direc != 3) {
+                xc--;
+                return 2;
+            }
         }
         xc++;                                                                   //Fonctionne : pas d'impasses
         return 3;
@@ -70,7 +74,7 @@ public class Unit
     public static void init()
     {
         loadProperties();
-        spawn = Ground.getSpawn();
+        //units.add(new Unit(3));
     }
     
     public static void newWave(int wave) 

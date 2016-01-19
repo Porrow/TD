@@ -23,7 +23,6 @@ public class Sound {
             if (ext.equals(".wav") || ext.equals(".mp3")) {
                 ind = Integer.parseInt(name);
                 File fa = new File(path + na);
-                System.out.println(fa.exists());
                 tabSd[ind] = minim.loadFile(path + na);
             }
         }
@@ -42,7 +41,6 @@ public class Sound {
             if (ext.equals(".wav") || ext.equals(".mp3")) {
                 ind = Integer.parseInt(name);
                 File fa = new File(path + na);
-                System.out.println(fa.exists());
                 tabSd[ind] = minim.loadSample(path + na);
             }
         }

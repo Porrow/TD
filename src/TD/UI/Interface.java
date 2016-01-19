@@ -1,6 +1,7 @@
 package TD.UI;
 
 import TD.Sound.Sound;
+import TD.TD;
 import processing.core.*;
 
 public class Interface
@@ -14,16 +15,6 @@ public class Interface
     
     public static void draw(PGraphics g)
     {
-        if(selec != 0)
-        {
-            int x = mx - Ground.W / 2;
-            int y = my - Ground.W * 3 / 4;
-            int range = Tower.tabProp[1][selec - 1][0];
-            g.noStroke();
-            g.fill(Tower.colR[0], Tower.colR[1], Tower.colR[2], Tower.colR[3]);
-            g.ellipse(mx, my - 10, range * 2, range * 2);
-            g.image(Tower.tabImg[selec - 1][0], x, y);
-        }
         g.image(tabImg[selec], Ground.WIDTH * Ground.W, 0);
         g.fill(255, 255, 255);
         g.textSize(20);
@@ -40,5 +31,24 @@ public class Interface
             g.image(tabImg[6], 1050, 690);
         else
             g.image(tabImg[7], 1050, 690);
+        if(selec != 0)
+        {
+            int x = mx - Ground.W / 2;
+            int y = my - Ground.W * 3 / 4;
+            int range = Tower.tabProp[1][selec - 1][0];
+            g.noStroke();
+            g.fill(Tower.colR[0], Tower.colR[1], Tower.colR[2], Tower.colR[3]);
+            g.ellipse(mx, my - 10, range * 2, range * 2);
+            g.image(Tower.tabImg[selec - 1][0], x, y);
+        }
+        g.image(tabImg[8], 10, 10);
+        g.image(tabImg[11],1200,0);
+        g.image(tabImg[10],1090,-2);
+        g.textSize(30);
+        g.fill(255, 255, 0);
+        g.text(TD.life,1258,27);
+        g.text(TD.gold, 1155, 27);
+        g.fill(255,255,255);
+        g.textSize(60);
     }
 }

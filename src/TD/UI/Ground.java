@@ -21,17 +21,19 @@ public class Ground
     public static int map;                                                      //Indique la map choisis
     public static int[][] tabProp;                                              //Contient les propriétés de chaque type de carré de terrain
     
-    public static void init(int map, PGraphics g)                               //Initiaise le terrain et choisis une 1ere map
+    public static void init()                                                   //Initiaise le terrain et choisis une 1ere map
     {
         tabMap = Read.loadFiles(MAPPATH);                                       //Chargement des maps
         tabProp = Read.string2Int(Read.readString(PROFILE));                    //Chargement des informations sur chaque textures : walkable, buildable
+    }
+    
+    public static void loadMap(PGraphics g) {
         g.beginDraw();
         for(int i = 0; i < tabMap[map].length; i++)
             for(int j = 0; j < tabMap[map][i].length; j++)
                 g.image(tabImg[tabMap[map][i][j]], j * W, i * W);
         g.endDraw();
         imgMap = g;
-        Ground.map = map;
     }
     
     public static int[] getSpawn()

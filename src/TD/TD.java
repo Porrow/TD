@@ -16,13 +16,14 @@ public class TD extends PApplet
     public static final int h = 9*scale;                                        //Hauteur par defaut fen
     public static final int fps = 60;                                           //Nombre d'ips
     public static final String ICONPATH = "res/img/icon/icon.png";              //Chemin d'accès à l'icone
-    public static final int[] COLOR1 = {200, 0, 0};                               //Color non sélectionner
+    public static final int[] COLOR1 = {200, 0, 0};                             //Color non sélectionner
     public static final int[] COLOR2 = {255, 255, 255};                         //Color sélectionner
     
     //Variables :
     public static int choice = 0;                                               //Choix de ce qu'il faut afficher : 0:Menu, 1:Jeu, 2:Pause, 3:Score
     public static int life;
     public static int gold;
+    private static PGraphics g2;
     
     private PFont font;
     public Minim minim;
@@ -33,12 +34,11 @@ public class TD extends PApplet
     }
     
     private void loadAll()
-    {
-        surface.setIcon(loadImage(ICONPATH));                                   //Modifie l'icone de la fen
+    {   
         Ground.tabImg = loadImages(Ground.IMGPATH);                             //Charge les images du terrain
-        Tower.tabImg = cut(loadImage(Tower.IMGFILE));
-        Tower.imgDestroy = loadImage(Tower.IMGDFILE);
-        Tower.imgImprove = loadImage(Tower.IMGIFILE);
+        Tower.tabImg = cut(loadImage(Tower.IMGFILE));                           //Charge les images des tours
+        Tower.imgDestroy = loadImage(Tower.IMGDFILE);                           //Charge bouton destroy
+        Tower.imgImprove = loadImage(Tower.IMGIFILE);                           //Charge bouton improve
         Unit.tabBaseImg = loadImages(Unit.IMGPATH);                             //Charge les images des unités
         for(int i = 0; i < Unit.tabBaseImg.length; i++)
             Unit.tabImg[i] = cut(Unit.tabBaseImg[i]);
@@ -46,7 +46,7 @@ public class TD extends PApplet
         Menu.tabImg = loadImages(Menu.IMGPATH);
         Score.tabImg = loadImages(Score.IMGPATH);
         GameOver.tabImg = loadImages(GameOver.IMGPATH);
-        Score.init();
+        Bullet.tabImg = loadImages(Bullet.IMGPATH);
     }
 
     private PImage[] loadImages(String path)
@@ -91,6 +91,9 @@ public class TD extends PApplet
         Sound.stop();
         Sound.play(1);
         Unit.newWave(Unit.wave = 1);
+        Unit.spawn = Ground.getSpawn();
+        Ground.loadMap(g2);
+        Move.stop = false;
         new Move().start();
     }
     
@@ -106,21 +109,26 @@ public class TD extends PApplet
         frameRate(fps);                                                         //Nombre d'images par seconde
         surface.setTitle(TITLE);                                                //Modifie le titre de la fen
         surface.setResizable(false);                                            //False : on ne peut pas retailler la fen
-        
+        surface.setIcon(loadImage(ICONPATH));                                   //Modifie l'icone de la fen
         //cursor(loadImage(IMGPATH + "cursor.gif"), mouseX, mouseY);              //Modifie l'apparence du curseur
 
-        loadAll();
-        font = createFont("FreeMonoBold", 60);
-        g.textFont(font);
-        Ground.init(0, createGraphics(w, h));                                   //Initialise le terrain
-        Tower.init();
-        Unit.init();
+        loadAll();                                                              //Charge toutes les ressources graphiques
         
-        minim = new Minim(this);
-        Sound.init(minim);
-        Sound.play(0);
+        font = createFont("FreeMonoBold", 60);                                  //Initialisation graphique
+        g.textFont(font);
         g.smooth();
         
+        Ground.init();                                                          //Initialise le terrain
+        Select.init();
+        Tower.init();                                                           //Initialise les tours
+        Unit.init();                                                            //Initialise les unités
+        Score.init();                                                           //Initialise les scores
+        
+        minim = new Minim(this);                                                //Initialisation Minim
+        Sound.init(minim);                                                      //Charge toutes les ressources sonores
+        Sound.play(0);                                                          //Joue le premier son
+        
+        g2 = createGraphics(w, h);
     }
 
     @Override
@@ -136,12 +144,19 @@ public class TD extends PApplet
                 Ground.draw(g);
                 Unit.draw(g);
                 Tower.draw(g);
+                Bullet.draw(g);
                 Interface.draw(g);
                 break;
-            case 2:                                                             
+            case 2:       
+                if(Pause.background == null)
+                    Pause.background = g.copy();
+                Pause.draw(g);
                 break;
             case 3:
                 Score.draw(this);
+                break;
+            case 4:
+                Select.draw(g);
                 break;
             case 5:
                 GameOver.draw(g);
