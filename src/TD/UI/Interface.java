@@ -48,7 +48,10 @@ public class Interface
         g.fill(255, 255, 0);
         g.text(TD.life,1258,27);
         g.text(TD.gold, 1155, 27);
+        g.textAlign(PApplet.LEFT,PApplet.BOTTOM);
+        g.text("Score : "+TD.score, 10, 715);
         g.fill(255,255,255);
         g.textSize(60);
+        g.textAlign(PApplet.CENTER,PApplet.BASELINE);
     }
 }

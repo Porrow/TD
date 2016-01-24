@@ -14,6 +14,7 @@ public class Menu
     public static void draw(PGraphics g) 
     {
         g.background(tabImg[0]);
+        g.textAlign(PApplet.BASELINE);
         g.fill(colJ[0], colJ[1], colJ[2]);
         g.text("JOUER", 530, 360);
         g.fill(colS[0], colS[1], colS[2]);

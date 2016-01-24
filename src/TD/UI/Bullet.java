@@ -25,10 +25,10 @@ public class Bullet
         if(t.type != 4)
         {
             speed = Tower.tabProp[4][t.type][0];
-            x = t.xc * Ground.W + Ground.W / 2;
-            y = t.yc * Ground.W + Ground.W / 2;
-            set();
         }
+        x = t.xc * Ground.W + Ground.W / 2;
+        y = t.yc * Ground.W + Ground.W / 2;
+        set();
     }
     
     public void set()
@@ -36,8 +36,8 @@ public class Bullet
         x1 = u.x + Ground.W / 2;
         y1 = u.y + Ground.W / 2;
         d = Move.getDistance(x, y, x1, y1);
-        vect[0] = (x - x1) / d * 20f;
-        vect[1] = (y - y1) / d * 20f;
+        vect[0] = (x - x1) / d * 5f;
+        vect[1] = (y - y1) / d * 5f;
     }
     
     public static void draw(PGraphics g) 
@@ -51,6 +51,9 @@ public class Bullet
                     g.image(tabImg[b.t.type], b.x, b.y);
                 else
                 {
+                    g.strokeWeight(3);
+                    g.stroke(255, 0, 0);
+                    g.line(b.x, b.y, b.x1, b.y1);
                 }
             }
             g.imageMode(g.CORNER);

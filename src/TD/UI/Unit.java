@@ -79,9 +79,11 @@ public class Unit
     
     public static void newWave(int wave) 
     {
+        
         loadEnemies((int) ((wave/2)*1.5),0);
         loadEnemies(wave/2,1);
         loadEnemies((int)((wave/3)*0.9),2);
+        loadEnemies(wave/5,3);
     }
 
     
@@ -105,21 +107,22 @@ public class Unit
             {
                 g.image(tabImg[u.type][u.direc][u.img], u.x, u.y);
                 g.rectMode(g.CENTER);
+                g.strokeWeight(1);
                 g.stroke(1);
-                if(tabProp[u.type][0] <= 200)
+                if(tabProp[u.type][0] <= 100)
                 {
                     g.fill(colB1[0], colB1[1], colB1[2], colB1[3]);
-                    g.rect(u.x + 20, u.y - 5, u.life, 3);
+                    g.rect(u.x + 20, u.y - 5, u.life/2, 3);
                 }
-                else if(tabProp[u.type][0] > 200 && tabProp[u.type][0] <= 400)
+                else if(tabProp[u.type][0] > 100 && tabProp[u.type][0] <= 400)
                 {
                     g.fill(colB2[0], colB2[1], colB2[2], colB2[3]);
-                    g.rect(u.x + 20, u.y - 5, u.life / 2, 4);
+                    g.rect(u.x + 20, u.y - 5, u.life / 4, 4);
                 }
                 else
                 {
                     g.fill(colB3[0], colB3[1], colB3[2], colB3[3]);
-                    g.rect(u.x + 20, u.y - 5, u.life / 10, 6);
+                    g.rect(u.x + 20, u.y - 5, u.life / 20, 6);
                 }
                 //g.rect(u.x + 20, u.y - 5, u.life, 3);
                 g.rectMode(g.CORNER);

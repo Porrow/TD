@@ -30,12 +30,16 @@ public class Event
     
     public static boolean inBuildableCase(int mx, int my)
     {
+        
         int x = mx / Ground.W;
         int y = my / Ground.W;
         boolean cond1 = y < Ground.tabMap[Ground.map].length;
         boolean cond2 = x < Ground.tabMap[Ground.map][0].length;
         if(cond1 && cond2 && Interface.selec != 0)
         {
+            if(TD.gold<Tower.tabProp[3][Interface.selec-1][0])
+                return false;
+            TD.gold-=Tower.tabProp[3][Interface.selec-1][0];
             int c = Ground.tabMap[Ground.map][y][x];
             for(Tower t : Tower.towers)
                 if(x == t.xc && y == t.yc)
@@ -76,8 +80,11 @@ public class Event
     {
         if(Tower.selec != -1 && !Tower.towers.isEmpty())
         {
+            
+                
             int w = Ground.W;
             Tower t = Tower.towers.get(Tower.selec);
+            if(TD.gold>=Tower.tabProp[3][t.type][t.lvl])
             if(inRect(mx, my, (t.xc+1) * w, t.yc * w,(t.xc+2) * w, t.yc * w + 30)) 
                 return true;
         }
@@ -190,6 +197,7 @@ public class Event
             case 5:
                 if(inRect(mx, my, 420, 610, 860, 650))
                 {
+                    //Score.save(TD.score);
                     Sound.stop();
                     if(!Sound.isMute)
                         Sound.play(0);

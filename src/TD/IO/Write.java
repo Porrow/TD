@@ -13,6 +13,7 @@ public class Write
             for(int i = 0; i < data.length; i++)
             {
                 dos.writeInt(data[i]);
+                dos.writeChars(" ");
             }
             dos.close();
         }

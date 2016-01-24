@@ -1,6 +1,7 @@
 package TD.UI;
 
 import TD.IO.Read;
+import TD.TD;
 import java.util.ArrayList;
 import processing.core.*;
 
@@ -43,6 +44,7 @@ public class Tower
     {
         if(lvl < MAXLEVEL)
         {
+            TD.gold-=tabProp[3][type][lvl];
             lvl++;
             att = tabProp[0][type][lvl];
             range = tabProp[1][type][lvl];
@@ -64,10 +66,10 @@ public class Tower
         if(!towers.isEmpty() && selec != -1)                                    //Si une tourelle est sélectionnée...
         {
             Tower t = towers.get(selec);
-            int range = Tower.tabProp[1][t.type][0];
+            
             g.noStroke();
             g.fill(colR[0], colR[1], colR[2], colR[3]);
-            g.ellipse(t.xc * w + 20, t.yc * w + 20, range * 2, range * 2);
+            g.ellipse(t.xc * w + 20, t.yc * w + 20, t.range * 2, t.range * 2);
             g.image(imgDestroy, (t.xc-1) * w, t.yc * w - 5);
             if(t.lvl < MAXLEVEL)
                 g.image(imgImprove, (t.xc+1) * w, t.yc * w - 5);

@@ -21,8 +21,7 @@ public class TD extends PApplet
     
     //Variables :
     public static int choice = 0;                                               //Choix de ce qu'il faut afficher : 0:Menu, 1:Jeu, 2:Pause, 3:Score
-    public static int life;
-    public static int gold;
+    public static int life,gold,score;
     private static PGraphics g2;
     
     private PFont font;
@@ -68,6 +67,30 @@ public class TD extends PApplet
         return tabImg;
     }
     
+    public void save(int score) {
+        boolean change = false;
+        int i;
+        for (i = 0; i < 8; ++i) {
+            if (score > Score.score[i]) {
+                change = true;
+                break;
+            }
+        }
+        if (change) {
+            int aux=Score.score[i];
+            for(int j=i;j<7;++j) {
+                aux=Score.score[j];
+                Score.score[j]=score;
+                score=aux;
+            }
+            Score.score[i] = score;
+            String[] all = new String[8];
+            for(i=0;i<8;++i)
+                all[i]= ""+Score.score[i];
+            saveStrings(Score.SCOREPATH+"score.txt", all);
+        }
+    }
+    
     private PImage[][]cut(PImage base)
     {
         int w = Ground.W;
@@ -85,14 +108,16 @@ public class TD extends PApplet
     
     public static void gameInit()                                               //Initialisation du jeu
     {
+        TD.score=0;
         TD.life = 10;
-        TD.gold = 500;
+        TD.gold = 200;
         Tower.selec = -1;
         Sound.stop();
-        Sound.play(1);
-        Unit.newWave(Unit.wave = 1);
-        Unit.spawn = Ground.getSpawn();
+        if(!Sound.isMute)
+            Sound.play(1);
         Ground.loadMap(g2);
+        Unit.spawn = Ground.getSpawn();
+        Unit.newWave(Unit.wave = 1);
         Move.stop = false;
         new Move().start();
     }
@@ -165,9 +190,9 @@ public class TD extends PApplet
                 exit();
                 break;
         }
-        textSize(15);
+        /*textSize(15);
         textAlign(LEFT);
-        text((int)(frameRate)+" FPS", 10, 15);
+        text((int)(frameRate)+" FPS", 10, 15);*/
     }
 
     @Override

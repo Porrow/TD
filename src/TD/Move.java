@@ -11,7 +11,7 @@ import TD.UI.Unit;
 public class Move extends Thread {
 
     private final int LATENCE = 5000;                                           //Temps entre 2 vagues
-    private final int SPACE = 700;                                              //Temps entre 2 spawns d'unités
+    private final int SPACE = 300;                                              //Temps entre 2 spawns d'unités
     private final int W = Ground.W;
 
     public static boolean stop;
@@ -164,9 +164,12 @@ public class Move extends Thread {
                     focus(tisl);
                     bul = animBullet(tisl);
                     if (uni != null) {
+                        TD.gold+=uni.gold;
                         synchronized (Unit.units) {
                             Unit.units.remove(uni);
                         }
+                        TD.score+=1;
+                        
                     }
                     if (bul != null) {
                         synchronized (Bullet.bullets) {
@@ -174,6 +177,8 @@ public class Move extends Thread {
                         }
                     }
                 } else {
+                    if(!Bullet.bullets.isEmpty())
+                        Bullet.bullets.removeAll(Bullet.bullets);
                     inter = java.lang.System.currentTimeMillis() - chrono;
                     if (chrono == 0) {
                         ++Unit.wave;
